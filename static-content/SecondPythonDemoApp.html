@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>SecondPythonDemo</title>
+
+    <!-- Prevent browser from requesting /favicon.ico -->
+    <link rel="icon" href="data:,">
+
+    <!-- Bootstrap core CSS -->
+    <link href="./assets/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        .dynamicRow {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+    </style>
+
+
+    <!-- Custom styles for this template -->
+    <link href="SecondPythonDemoApp.css" />
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled">Disabled</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">Dropdown</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+
+<main role="main">
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+        <div class="container">
+            &nbsp;
+        </div>
+    </div>
+</main>
+<main role="main" id="mainTag">
+
+</main>
+
+<footer class="container">
+    <p>&copy; Company 2017-2022</p>
+</footer>
+
+<script src="react.development.js"></script>
+<script src="react-dom.development.js"></script>
+<script src="babel.min.js"></script>
+<script  type="text/babel">
+
+    const { useState } = React;
+
+    function MainApp() {
+
+        const [brandsStatus, setBrandsStatus] = useState("No brands loaded yet");
+        const [brandsError, setBrandsError] = useState("No errors loaded yet");
+
+        const fetchBrands = (e) => {
+            fetch("http://localhost:5000/brands")
+                .then((res) => {
+                    if (!res.ok) throw new Error('Network response was not ok');
+                    return res.text(); // Use .text() for text/plain
+                })
+                .then((data) => {
+                    if (data !== undefined && data !== null)
+                        setBrandsStatus(data)
+                    else
+                        setBrandsStatus("Not loading brands")
+                })
+                .catch((err) => {
+                    if (err !== undefined && err !== null)
+                        setBrandsError(String(err))
+                    else
+                        setBrandsError("Error while getting brands")
+                });
+        }
+
+        const [categoriesStatus, setCategoriesStatus] = useState("No categories loaded yet");
+        const [categoriesError, setCategoriesError] = useState("No errors loaded yet");
+
+        const fetchCategories = (e) => {
+            fetch("http://localhost:5000/categories")
+                .then((res) => {
+                    if (!res.ok) throw new Error('Network response was not ok');
+                    return res.text(); // Use .text() for text/plain
+                })
+                .then((data) => {
+                    if (data !== undefined && data !== null)
+                        setCategoriesStatus(data)
+                    else
+                        setCategoriesStatus("Not loading categories")
+                })
+                .catch((err) => {
+                    if (err !== undefined && err !== null)
+                        setCategoriesError(String(err))
+                    else
+                        setCategoriesError("Error while getting categories")
+                });
+        }
+
+        const [productsStatus, setProductsStatus] = useState("No products loaded yet");
+        const [productsError, setProductsError] = useState("No errors loaded yet");
+
+        const fetchProducts = (e) => {
+            fetch("http://localhost:5000/products")
+                .then((res) => {
+                    if (!res.ok) throw new Error('Network response was not ok');
+                    return res.text(); // Use .text() for text/plain
+                })
+                .then((data) => {
+                    if (data !== undefined && data !== null)
+                        setProductsStatus(data)
+                    else
+                        setProductsStatus("Not loading products")
+                })
+                .catch((err) => {
+                    if (err !== undefined && err !== null)
+                        setProductsError(String(err))
+                    else
+                        setProductsError("Error while getting products")
+                });
+        }
+
+        const [ingestIntoChromaStatus, setIngestIntoChromaStatus] = useState("Have not ingested into ChromaDb yet");
+        const [ingestIntoChromaError, setIngestIntoChromaError] = useState("No errors loaded yet");
+
+        const fetchIngestIntoChroma = (e) => {
+            fetch("http://localhost:5000/ingest_product_metadata_into_chroma")
+                .then((res) => {
+                    if (!res.ok) throw new Error('Network response was not ok');
+                    return res.text(); // Use .text() for text/plain
+                })
+                .then((data) => {
+                    if (data !== undefined && data !== null)
+                        setIngestIntoChromaStatus(data)
+                    else
+                        setIngestIntoChromaStatus("Not ingesting yet")
+                })
+                .catch((err) => {
+                    if (err !== undefined && err !== null)
+                        setIngestIntoChromaError(String(err))
+                    else
+                        setIngestIntoChromaError("Error while ingesting")
+                });
+        }
+
+        const [queryChromaStatus, setQueryChromaStatus] = useState("No query sent to ChromaDb yet");
+        const [queryChromaError, setQueryChromaError] = useState("No errors loaded yet");
+        const [chromaSearchTerm, setChromaSearchTerm] = useState("Deluxe");
+        const [chromaRetrievedJsonObjectList, setChromaRetrievedJsonObjectList] = useState([]);
+
+        const processSuccessfullyQueriedChroma = (data) => {
+            if (data !== undefined && data !== null) {
+                let jsonData = JSON.parse(data)
+                if (jsonData !== undefined && jsonData !== null && jsonData.length > 0) {
+                    var jsonDataListObjects = []
+                    jsonData.forEach((item) => {
+                        var singleObj = {};
+                        singleObj['product_name'] = item['product_name'];
+                        singleObj['product_description'] = item['product_description'];
+                        singleObj['sku'] = item['sku'];
+                        jsonDataListObjects.push(singleObj);
+                    })
+                    setChromaRetrievedJsonObjectList(jsonDataListObjects);
+                } else {
+                    setChromaRetrievedJsonObjectList([]);
+                }
+                setQueryChromaStatus(data)
+            } else {
+                setChromaRetrievedJsonObjectList([]);
+                setQueryChromaStatus("Not querying yet")
+            }
+        }
+
+        const fetchQueryChroma = (e) => {
+            fetch("http://localhost:5000/query_chroma_and_retrieve/" + chromaSearchTerm)
+                .then((res) => {
+                    if (!res.ok) throw new Error('Network response was not ok');
+                    return res.text(); // Use .text() for text/plain
+                })
+                .then(processSuccessfullyQueriedChroma)
+                .catch((err) => {
+                    if (err !== undefined && err !== null)
+                        setQueryChromaError(String(err))
+                    else
+                        setQueryChromaError("Error while querying")
+                });
+        }
+
+        // need to fix this logic
+        const saveSearchTerm = (e) => {
+            let val1 = e.target.value
+            if (val1 === undefined || val1 === null) {
+//                console.log("val1 is undefined or null, cannot proceed")
+                setChromaSearchTerm("");
+            } else {
+                let val1trimmed = val1.trim()
+//                console.log("val1trimmed=[" + val1trimmed + "]")
+                if (val1trimmed === undefined || val1trimmed === null || val1trimmed.length <= 0) {
+//                    console.log("val1trimmed is undefined or null, cannot proceed")
+                    setChromaSearchTerm("");
+                } else {
+//                    console.log("saving encodeURIComponent(val1trimmed)=[" + encodeURIComponent(val1trimmed) + "]")
+                    setChromaSearchTerm(encodeURIComponent(val1trimmed));
+                }
+            }
+        }
+
+
+
+        return (
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-4">
+                    <input type="button" onClick={(e) => fetchBrands(e)} value="Retrieve our Brands"></input>
+                    </div>
+                    <div className="col-md-4">
+                    brand status<input type="textarea" style={{width:260,height:40}} value={brandsStatus} onChange={(e) => console.log('dont want this message')}></input>
+                    </div>
+                    <div className="col-md-4">
+                    brand error<input type="textarea" style={{width:260,height:40}} value={brandsError} onChange={(e) => console.log('dont want this message')}></input>
+                    </div>
+                </div>
+                <hr></hr>
+                <div className="row">
+                    <div className="col-md-4">
+                    <input type="button" onClick={(e) => fetchCategories(e)} value="Retrieve our Categories"></input>
+                    </div>
+                    <div className="col-md-4">
+                    category status<input type="textarea" style={{width:260,height:40}} value={categoriesStatus} onChange={(e) => console.log('dont want this message')}></input>
+                    </div>
+                    <div className="col-md-4">
+                    category error<input type="textarea" style={{width:260,height:40}} value={categoriesError} onChange={(e) => console.log('dont want this message')}></input>
+                    </div>
+                </div>
+                <hr></hr>
+                <div className="row">
+                    <div className="col-md-4">
+                    <input type="button" onClick={(e) => fetchProducts(e)} value="Retrieve our Products"></input>
+                    </div>
+                    <div className="col-md-4">
+                    product status<input type="textarea" style={{width:260,height:40}} value={productsStatus} onChange={(e) => console.log('dont want this message')}></input>
+                    </div>
+                    <div className="col-md-4">
+                    product error<input type="textarea" style={{width:260,height:40}} value={productsError} onChange={(e) => console.log('dont want this message')}></input>
+                    </div>
+                </div>
+                <hr></hr>
+                <div className="row">
+                    <div className="col-md-4">
+                    <input type="button" onClick={(e) => fetchIngestIntoChroma(e)} value="Ingest into Chroma"></input>
+                    </div>
+                    <div className="col-md-4">
+                    ingest status<input type="textarea" style={{width:260,height:40}} value={ingestIntoChromaStatus} onChange={(e) => console.log('dont want this message')}></input>
+                    </div>
+                    <div className="col-md-4">
+                    ingest error<input type="textarea" style={{width:260,height:40}} value={ingestIntoChromaError} onChange={(e) => console.log('dont want this message')}></input>
+                    </div>
+                </div>
+                <hr></hr>
+                <div className="row">
+                    <div className="col-md-4">
+                    <input type="button" onClick={(e) => fetchQueryChroma(e)} value="Query Chroma and retrieve"></input>
+                    <input type="text" onChange={(e) => saveSearchTerm(e)} value={chromaSearchTerm}></input>
+                    </div>
+                    <div className="col-md-4">
+                    query status<input type="textarea" style={{width:260,height:40}} value={queryChromaStatus} onChange={(e) => console.log('dont want this message')}></input>
+                    </div>
+                    <div className="col-md-4">
+                    query error<input type="textarea" style={{width:260,height:40}} value={queryChromaError} onChange={(e) => console.log('dont want this message')}></input>
+                    </div>
+                </div>
+                <hr></hr>
+                <div className="row">
+                    <ul>
+                        {chromaRetrievedJsonObjectList.map((item, index) => (
+                            <li key={index}>{item['sku']} - {item['product_name']} - {item['product_description']}</li>
+                        ))}
+                    </ul>
+                </div>
+                <hr></hr>
+            </div>
+        );
+
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("mainTag"));
+    root.render(React.createElement(MainApp));
+
+</script>
+
+</body>
+</html>
