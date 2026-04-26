@@ -24,7 +24,7 @@
 - npm
 - ReactJS
 
-- FastAPI serves both backend and frontend app (via static content)
+- Flask serves both backend and frontend app (via static content)
 very basic UI: text box input, button to do Ajax call, textarea to display json results (and unordered list)
 
 - ReactJS is used.
